@@ -5,7 +5,7 @@ var args = process.argv.slice(2);
 var light = new Milight({ ip: "192.168.1.8", type: 'v6' });
 var zone = args[0];
 var colour = args[1];
-console.log("Zone " + zone);
+console.log("Changing zone " + zone + " colour to " + colour);
 if (colour == 0)
     light.sendCommands(commands.rgbw.on(zone), commands.rgbw.whiteMode(zone));
 else
@@ -13,5 +13,5 @@ else
 light.pause(1000);
 
 light.close().then(function () {
-  console.log("All command have been executed - closing Milight");
+  console.log("Command executed - closing Milight");
 });

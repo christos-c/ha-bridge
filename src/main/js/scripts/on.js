@@ -4,10 +4,10 @@ var args = process.argv.slice(2);
 
 var light = new Milight({ ip: "192.168.1.8", type: 'v6' });
 var zone = args[0];
-console.log("Zone " + zone);
+console.log("Turning ON zone " + zone);
 light.sendCommands(commands.rgbw.on(zone));
 light.pause(1000);
 
 light.close().then(function () {
-  console.log("All command have been executed - closing Milight");
+  console.log("Command executed - closing Milight");
 });

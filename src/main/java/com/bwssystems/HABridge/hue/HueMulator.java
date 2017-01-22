@@ -63,8 +63,10 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.InetAddress;
@@ -1323,6 +1325,20 @@ public class HueMulator implements HueErrorStringSet {
 		if (anItem != null && !anItem.equalsIgnoreCase("")) {
 			try {
 				Process p = Runtime.getRuntime().exec(replaceIntensityValue(anItem, intensity, false));
+				Thread ioThread = new Thread(() -> {
+                    try {
+                        final BufferedReader reader = new BufferedReader(
+                                new InputStreamReader(p.getInputStream()));
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            log.info(line);
+                        }
+                        reader.close();
+                    } catch (final Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+				ioThread.start();
 				log.debug("Process running: " + p.isAlive());
 			} catch (IOException e) {
 				log.warn("Could not execute request: " + anItem, e);
