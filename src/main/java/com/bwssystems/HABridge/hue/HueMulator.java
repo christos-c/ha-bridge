@@ -768,7 +768,7 @@ public class HueMulator implements HueErrorStringSet {
 					if (url.startsWith("{\"item"))
 						url = "[" + url + "]";
 					else
-						url = "[{\"item\":\"" + url + "\"}]";
+						url = "[{\"item\":\"" + url.replaceAll("\"", "'") + "\"}]";
 				}
 	
 				// CallItem[] callItems = callItemGson.fromJson(url,
